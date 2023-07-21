@@ -37,237 +37,146 @@ fun Calculator(
                 .fillMaxWidth()
                 .align(Alignment.BottomEnd),
         ) {
-            Card(
+            CreateCardWithText(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(SYMBOL_ONE.toFloat()),
-                shape = RoundedCornerShape(bottomEnd = SPACING_30.dp, bottomStart = SPACING_30.dp),
-                colors = CardDefaults.cardColors(containerColor = OnSecondary)
-            ) {
-                Box(
-                    contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxHeight(),
-                ) {
-                    Text(
-                        text = state.numberOne + (state.operation?.symbol
-                            ?: EMPTY_STRING) + state.numberTwo,
-                        textAlign = TextAlign.End,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                bottom = SPACING_30.dp,
-                                end = SPACING_15.dp
-                            ),
-                        fontWeight = FontWeight.Light,
-                        color = Color.White,
-                        maxLines = SYMBOL_TWO.toInt(),
-                        fontSize = SPACING_60.sp,
-                    )
-                }
-            }
+                state = state
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(SPACING_20.dp),
                 verticalArrangement = Arrangement.spacedBy(buttonSpacing)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
-                ) {
-                    repeat(SYMBOL_THREE.toInt()) { index ->
-                        CalculatorButton(
-                            symbol = when (index) {
-                                SYMBOL_ZERO.toInt() -> SYMBOL_AC
-                                SYMBOL_ONE.toInt() -> SYMBOL_DEL
-                                else -> SYMBOL_DIVIDE
-                            },
-                            modifier = Modifier
-                                .aspectRatio(
-                                    if (index == SYMBOL_ZERO.toInt())
-                                        SYMBOL_TWO.toFloat()
-                                    else
-                                        SYMBOL_ONE.toFloat()
-                                )
-                                .weight(
-                                    if (index == SYMBOL_ZERO.toInt())
-                                        SYMBOL_TWO.toFloat()
-                                    else
-                                        SYMBOL_ONE.toFloat()
-                                ),
-                            onClick = {
-                                when (index) {
-                                    SYMBOL_ZERO.toInt() -> onAction(CalculatorAction.Clear)
-                                    SYMBOL_ONE.toInt() -> onAction(CalculatorAction.Delete)
-                                    else -> onAction(
-                                        CalculatorAction.Operation(CalculatorOperation.Divide)
-                                    )
-                                }
-                            },
-                            color = if (index == SYMBOL_ZERO.toInt()) OnPrimary else OnSecondary
-                        )
-                    }
-                }
-
-                repeat(SYMBOL_THREE.toInt()) { outerIndex ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
-                    ) {
-                        repeat(SYMBOL_FOUR.toInt()) { innerIndex ->
-                            CalculatorButton(
-                                symbol = when (outerIndex) {
-                                    SYMBOL_ZERO.toInt() -> {
-                                        when (innerIndex) {
-                                            SYMBOL_ZERO.toInt() -> SYMBOL_SEVEN
-                                            SYMBOL_ONE.toInt() -> SYMBOL_EIGHT
-                                            SYMBOL_TWO.toInt() -> SYMBOL_NINE
-                                            else -> SYMBOL_MULTIPLY
-                                        }
-                                    }
-                                    SYMBOL_ONE.toInt() -> {
-                                        when (innerIndex) {
-                                            SYMBOL_ZERO.toInt() -> SYMBOL_FOUR
-                                            SYMBOL_ONE.toInt() -> SYMBOL_FIVE
-                                            SYMBOL_TWO.toInt() -> SYMBOL_SIX
-                                            else -> SYMBOL_MINUS
-                                        }
-                                    }
-                                    else -> {
-                                        when (innerIndex) {
-                                            SYMBOL_ZERO.toInt() -> SYMBOL_ONE
-                                            SYMBOL_ONE.toInt() -> SYMBOL_TWO
-                                            SYMBOL_TWO.toInt() -> SYMBOL_THREE
-                                            else -> SYMBOL_PLUS
-                                        }
-                                    }
-                                },
-                                modifier = Modifier
-                                    .aspectRatio(SYMBOL_ONE.toFloat())
-                                    .weight(SYMBOL_ONE.toFloat()),
-                                onClick = {
-                                    when (outerIndex) {
-                                        SYMBOL_ZERO.toInt() -> {
-                                            when (innerIndex) {
-                                                SYMBOL_ZERO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_SEVEN.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_ONE.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_EIGHT.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_TWO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_NINE.toInt()
-                                                    )
-                                                )
-                                                else -> onAction(
-                                                    CalculatorAction.Operation(
-                                                        CalculatorOperation.Multiply
-                                                    )
-                                                )
-                                            }
-                                        }
-                                        SYMBOL_ONE.toInt() -> {
-                                            when (innerIndex) {
-                                                SYMBOL_ZERO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_FOUR.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_ONE.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_FIVE.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_TWO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_SIX.toInt()
-                                                    )
-                                                )
-                                                else -> onAction(
-                                                    CalculatorAction.Operation(
-                                                        CalculatorOperation.Subtract
-                                                    )
-                                                )
-                                            }
-                                        }
-                                        else -> {
-                                            when (innerIndex) {
-                                                SYMBOL_ZERO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_ONE.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_ONE.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_TWO.toInt()
-                                                    )
-                                                )
-                                                SYMBOL_TWO.toInt() -> onAction(
-                                                    CalculatorAction.Number(
-                                                        SYMBOL_THREE.toInt()
-                                                    )
-                                                )
-                                                else -> onAction(
-                                                    CalculatorAction.Operation(
-                                                        CalculatorOperation.Add
-                                                    )
-                                                )
-                                            }
-                                        }
-                                    }
-                                },
-                                color = OnSecondary
-                            )
-                        }
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
-                ) {
-                    repeat(SYMBOL_THREE.toInt()) { index ->
-                        CalculatorButton(
-                            symbol = when (index) {
-                                SYMBOL_ZERO.toInt() -> SYMBOL_ZERO
-                                SYMBOL_ONE.toInt() -> SYMBOL_DECIMAL
-                                else -> SYMBOL_EQUAL
-                            },
-                            modifier = Modifier
-                                .aspectRatio(
-                                    if (index == SYMBOL_ZERO.toInt())
-                                        SYMBOL_TWO.toFloat()
-                                    else
-                                        SYMBOL_ONE.toFloat()
-                                )
-                                .weight(
-                                    if (index == SYMBOL_ZERO.toInt())
-                                        SYMBOL_TWO.toFloat()
-                                    else
-                                        SYMBOL_ONE.toFloat()
-                                ),
-                            onClick = {
-                                when (index) {
-                                    SYMBOL_ZERO.toInt() -> onAction(
-                                        CalculatorAction.Number(
-                                            SYMBOL_ZERO.toInt()
-                                        )
-                                    )
-
-                                    SYMBOL_ONE.toInt() -> onAction(CalculatorAction.Decimal)
-                                    else -> onAction(CalculatorAction.Calculate)
-                                }
-                            },
-                            color = OnSecondary
-                        )
-                    }
-                }
+                CreateBoxOfButtons(buttonSpacing = buttonSpacing, onAction = onAction)
             }
+        }
+    }
+}
+
+@Composable
+fun CreateCardWithText(
+    modifier: Modifier,
+    state: CalculatorState,
+) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(bottomEnd = SPACING_30.dp, bottomStart = SPACING_30.dp),
+        colors = CardDefaults.cardColors(containerColor = OnSecondary),
+    ) {
+        Box(
+            contentAlignment = Alignment.BottomEnd,
+            modifier = Modifier.fillMaxHeight(),
+        ) {
+            Text(
+                text = state.numberOne + (state.operation?.symbol ?: EMPTY_STRING) + state.numberTwo,
+                textAlign = TextAlign.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        bottom = SPACING_30.dp,
+                        end = SPACING_15.dp
+                    ),
+                fontWeight = FontWeight.Light,
+                color = Color.White,
+                maxLines = SYMBOL_TWO.toInt(),
+                fontSize = SPACING_60.sp,
+            )
+        }
+    }
+}
+
+@Composable
+fun CreateBoxOfButtons(
+    buttonSpacing: Dp,
+    onAction: (CalculatorAction) -> Unit,
+) {
+    repeat(SYMBOL_FIVE.toInt()) { index ->
+        CreateRowOfButtons(
+            buttonSpacing = buttonSpacing,
+            onAction =  when (index) {
+                SYMBOL_ZERO.toInt() -> listOf(
+                    { onAction(CalculatorAction.Clear) },
+                    { onAction(CalculatorAction.Delete) },
+                    { onAction(CalculatorAction.Operation(CalculatorOperation.Divide)) }
+                )
+                SYMBOL_ONE.toInt() -> listOf(
+                    { onAction(CalculatorAction.Number(SYMBOL_SEVEN.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_EIGHT.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_NINE.toInt())) },
+                    { onAction(CalculatorAction.Operation(CalculatorOperation.Multiply)) }
+                )
+                SYMBOL_TWO.toInt() -> listOf(
+                    { onAction(CalculatorAction.Number(SYMBOL_FOUR.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_FIVE.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_SIX.toInt())) },
+                    { onAction(CalculatorAction.Operation(CalculatorOperation.Subtract)) }
+                )
+                SYMBOL_THREE.toInt() -> listOf(
+                    { onAction(CalculatorAction.Number(SYMBOL_ONE.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_TWO.toInt())) },
+                    { onAction(CalculatorAction.Number(SYMBOL_THREE.toInt())) },
+                    { onAction(CalculatorAction.Operation(CalculatorOperation.Add)) }
+                )
+                else -> listOf(
+                    { onAction(CalculatorAction.Number(SYMBOL_ZERO.toInt())) },
+                    { onAction(CalculatorAction.Decimal) },
+                    { onAction(CalculatorAction.Calculate) }
+                )
+            },
+            symbols = when (index) {
+                SYMBOL_ZERO.toInt() -> listOf(SYMBOL_AC, SYMBOL_DEL, SYMBOL_DIVIDE)
+                SYMBOL_ONE.toInt() -> listOf(SYMBOL_SEVEN, SYMBOL_EIGHT, SYMBOL_NINE, SYMBOL_MULTIPLY)
+                SYMBOL_TWO.toInt() -> listOf(SYMBOL_FOUR, SYMBOL_FIVE, SYMBOL_SIX, SYMBOL_MINUS)
+                SYMBOL_THREE.toInt() -> listOf(SYMBOL_ONE, SYMBOL_TWO, SYMBOL_THREE, SYMBOL_PLUS)
+                else -> listOf(SYMBOL_ZERO, SYMBOL_DECIMAL, SYMBOL_EQUAL)
+            },
+            repeat = when (index) {
+                SYMBOL_ZERO.toInt(), SYMBOL_FOUR.toInt() -> SYMBOL_THREE.toInt()
+                else -> SYMBOL_FOUR.toInt()
+            },
+            aspectRatio = when (index) {
+                SYMBOL_ZERO.toInt(), SYMBOL_FOUR.toInt() -> true
+                else -> false
+            },
+            isOtherColor = index == SYMBOL_ZERO.toInt()
+        )
+    }
+}
+
+@Composable
+fun CreateRowOfButtons(
+    buttonSpacing: Dp,
+    onAction: List<() -> Unit>,
+    symbols: List<String>,
+    repeat: Int,
+    aspectRatio: Boolean,
+    isOtherColor: Boolean
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+    ) {
+        repeat(repeat) { index ->
+            CalculatorButton(
+                symbol = symbols[index],
+                modifier = Modifier
+                    .aspectRatio(
+                        if (index == SYMBOL_ZERO.toInt() && aspectRatio)
+                            SYMBOL_TWO.toFloat()
+                        else
+                            SYMBOL_ONE.toFloat()
+                    )
+                    .weight(
+                        if (index == SYMBOL_ZERO.toInt() && aspectRatio)
+                            SYMBOL_TWO.toFloat()
+                        else
+                            SYMBOL_ONE.toFloat()
+                    ),
+                onClick = onAction[index],
+                color = if (isOtherColor && index == SYMBOL_ZERO.toInt()) OnPrimary else OnSecondary
+            )
         }
     }
 }
