@@ -29,11 +29,9 @@ class CalculatorViewModel : ViewModel() {
             numberTwo.isNotBlank() -> state = this.copy(
                 numberTwo = numberTwo.dropLast(LAST_CHAR)
             )
-
             operation != null -> state = this.copy(
                 operation = null
             )
-
             numberOne.isNotBlank() -> state = this.copy(
                 numberOne = numberOne.dropLast(LAST_CHAR)
             )
