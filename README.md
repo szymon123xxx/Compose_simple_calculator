@@ -5,4 +5,4 @@ This project is a simple calculator app written using Jetpack Compose. The app p
 Addition, subtraction, multiplication, and division operations.
 A clean and intuitive user interface built with Jetpack Compose.
 
-![Screenshot_20230721-130610](https://github.com/szymon123xxx/Compose_simple_calculator/assets/56151418/279dc521-316b-49f3-80ff-c3edda99361e)
+<img src="(https://github.com/szymon123xxx/Compose_simple_calculator/assets/56151418/279dc521-316b-49f3-80ff-c3edda99361e" width="100" height="200">
